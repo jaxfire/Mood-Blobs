@@ -41,7 +41,7 @@ class MyBlob extends StatefulWidget {
   }
 
   @override
-  _MyBlobState createState() => _MyBlobState();q
+  _MyBlobState createState() => _MyBlobState();
 }
 
 class _MyBlobState extends State<MyBlob> {
@@ -275,6 +275,11 @@ class _MyBlobState extends State<MyBlob> {
                 ),
               ],
             ),
+            MoodSlider(
+              onSelection: (selectedValue) {
+                setState(() => moodIndex = selectedValue);
+              },
+            ),
             RaisedButton(
               child: Text('Change'),
               onPressed: () {
@@ -288,6 +293,33 @@ class _MyBlobState extends State<MyBlob> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class MoodSlider extends StatefulWidget {
+  final Function onSelection;
+  MoodSlider({@required this.onSelection});
+
+  @override
+  _MoodSliderState createState() => _MoodSliderState();
+}
+
+class _MoodSliderState extends State<MoodSlider> {
+  double sliderSelection = 0;
+  @override
+  Widget build(BuildContext context) {
+    return Slider(
+      value: sliderSelection,
+      onChanged: (newValue) {
+        setState(() => sliderSelection = newValue);
+      },
+      divisions: 6,
+      min: 0,
+      max: 6,
+      onChangeEnd: (selection) {
+        widget.onSelection(selection.toInt());
+      },
     );
   }
 }
